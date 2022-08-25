@@ -7,9 +7,7 @@ import (
 
 //https://leetcode.com/problems/strong-password-checker/
 func main() {
-
-	fmt.Println(strongPasswordChecker("aaabb1"))
-
+	fmt.Println(strongPasswordChecker("123456789"))
 }
 
 const (
@@ -44,6 +42,12 @@ func strongPasswordChecker(password string) int {
 	if short != 0 && UpLowDig != 0 && t != 0 {
 		return short + t
 	}
+
+	//length OK & no repits
+	if short == 0 && long == 0 && UpLowDig != 0 && t == 0 {
+		return UpLowDig
+	}
+
 	return 11111111
 }
 
