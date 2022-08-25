@@ -30,7 +30,7 @@ func strongPasswordChecker(password string) int {
 
 	UpLowDig := up + low + d
 
-	//to short
+	//to short & no repeats
 	if short != 0 && UpLowDig != 0 && t == 0 {
 		if short >= UpLowDig {
 			return short
@@ -53,8 +53,10 @@ func strongPasswordChecker(password string) int {
 		return UpLowDig
 	}
 
-	//to long
-	//if long>0&&
+	//to long & no repeats
+	if long != 0 && UpLowDig != 0 && t == 0 {
+		return long + UpLowDig
+	}
 
 	return 0
 }
