@@ -8,7 +8,7 @@ import (
 //https://leetcode.com/problems/strong-password-checker/
 func main() {
 
-	fmt.Println(strongPasswordChecker("aabb1"))
+	fmt.Println(strongPasswordChecker("aaabb1"))
 
 }
 
@@ -18,8 +18,8 @@ const (
 )
 
 func strongPasswordChecker(password string) int {
-	sh := lenghtUnder(password)
-	lon := lenghtOver(password)
+	short := lenghtUnder(password)
+	long := lenghtOver(password)
 
 	up := uppercase(password)
 	low := lowercase(password)
@@ -28,28 +28,42 @@ func strongPasswordChecker(password string) int {
 	t := three(password)
 
 	//temp
-	_ = lon + t
+	_ = long + t
 
+	//to short
 	UpLowDig := up + low + d
-
-	if sh != 0 && UpLowDig != 0 {
-		switch sh >= UpLowDig {
+	if short != 0 && UpLowDig != 0 && t == 0 {
+		switch short >= UpLowDig {
 		case true:
-			return sh
+			return short
 		default:
 			return UpLowDig
 		}
 	}
+
+	//to short & aaa
+	if short != 0 && UpLowDig != 0 && t != 0 {
+		return short + t
+	}
+
 	return 11111111
 
 }
 
 func lenghtUnder(p string) int {
-	return min - len(p)
+	l := len(p)
+	if l < min {
+		return min - len(p)
+	}
+	return 0
 }
 
 func lenghtOver(p string) int {
-	return len(p) - max
+	l := len(p)
+	if l > max {
+		return len(p) - max
+	}
+	return 0
 }
 
 func uppercase(p string) int {
