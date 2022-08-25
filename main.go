@@ -30,24 +30,21 @@ func strongPasswordChecker(password string) int {
 	//temp
 	_ = long + t
 
-	//to short
 	UpLowDig := up + low + d
+
+	//to short
 	if short != 0 && UpLowDig != 0 && t == 0 {
-		switch short >= UpLowDig {
-		case true:
+		if short >= UpLowDig {
 			return short
-		default:
-			return UpLowDig
 		}
+		return UpLowDig
 	}
 
 	//to short & aaa
 	if short != 0 && UpLowDig != 0 && t != 0 {
 		return short + t
 	}
-
 	return 11111111
-
 }
 
 func lenghtUnder(p string) int {
