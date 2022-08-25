@@ -7,7 +7,11 @@ import (
 
 //https://leetcode.com/problems/strong-password-checker/
 func main() {
-	fmt.Println(strongPasswordChecker("aaabababa"))
+	fmt.Println(strongPasswordChecker("bbaa1aa2aa3aa4aa5ccA123"))
+	//	"bbaaaaaaaaaaaaaaacccccc"
+	//	"bbaaaaaaaaaaaaaaaccc ccc"
+	//	"bb aaa aaa aaa aaa aaa ccc / ccc"
+
 }
 
 const (
@@ -30,8 +34,8 @@ func strongPasswordChecker(password string) int {
 
 	UpLowDig := up + low + d
 
-	//to short & no repeats
-	if short != 0 && UpLowDig != 0 && t == 0 {
+	//to short & no UplowDig & no repeats
+	if short != 0 && t == 0 {
 		if short >= UpLowDig {
 			return short
 		}
@@ -43,6 +47,11 @@ func strongPasswordChecker(password string) int {
 		return short + t
 	}
 
+	//to short & no UplowDig & AAA
+	if short != 0 && UpLowDig == 0 && t != 0 {
+		return t
+	}
+
 	//length OK & no repeats
 	if short == 0 && long == 0 && UpLowDig != 0 && t == 0 {
 		return UpLowDig
@@ -50,11 +59,12 @@ func strongPasswordChecker(password string) int {
 
 	//length OK & repeats
 	if short == 0 && long == 0 && UpLowDig != 0 && t != 0 {
-		return UpLowDig
+		return t
 	}
 
 	//to long & no repeats
-	if long != 0 && UpLowDig != 0 && t == 0 {
+	//to long & aaa
+	if long != 0 && UpLowDig != 0 {
 		return long + UpLowDig
 	}
 
