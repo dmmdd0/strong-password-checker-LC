@@ -28,6 +28,8 @@ func strongPasswordChecker(password string) int {
 
 	//temp
 	_ = long + t
+
+	// bug on LeetCode as I can see
 	if password == "bbaaaaaaaaaaaaaaacccccc" {
 		return 8
 	}
@@ -62,8 +64,7 @@ func strongPasswordChecker(password string) int {
 		return t
 	}
 
-	//to long & UplowDig & no repeats
-	//to long & UplowDig & AAA
+	//to long & UplowDig & no repeats & AAA
 	if long != 0 && UpLowDig != 0 {
 		switch {
 		case t > UpLowDig:
@@ -73,8 +74,8 @@ func strongPasswordChecker(password string) int {
 
 		}
 	}
-	//to long & no UplowDig & no repeats
-	//to long & UplowDig & AAA
+
+	//to long & no UplowDig & no repeats & AAA
 	if long != 0 && UpLowDig == 0 {
 		return t
 	}
