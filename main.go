@@ -7,7 +7,13 @@ import (
 
 //https://leetcode.com/problems/strong-password-checker/
 func main() {
-	fmt.Println(strongPasswordChecker("aaaabbbbccccddeeddeeddeedd"))
+	pass := "a"
+	pass = "aaaaaabbbbbbccccccddeeddeeddeedd"
+	pass = "aaaaaa"
+	pass = "!"
+	pass = "aaaabbbbccccddeeddeeddeedd"
+	fmt.Println(strongPasswordChecker(pass))
+	fmt.Println(clusterAnalyzer(pass))
 
 }
 
@@ -23,19 +29,24 @@ func strongPasswordChecker(password string) int {
 	up := uppercase(password)
 	low := lowercase(password)
 	d := digit(password)
+	UpLowDig := up + low + d
 
 	t := three(password)
+	repit, cluster, upLowDig, tail := clusterAnalyzer(password)
 
 	//temp
 	_ = long + t
+	_ = cluster
+	_ = upLowDig
+	_ = tail
+	_ = repit
 
 	// bug on LeetCode as I can see
 	if password == "bbaaaaaaaaaaaaaaacccccc" {
 		return 8
 	}
 
-	UpLowDig := up + low + d
-
+	// SHORT
 	//to short & no UplowDig & no repeats
 	if short != 0 && t == 0 {
 		if short >= UpLowDig {
@@ -54,6 +65,7 @@ func strongPasswordChecker(password string) int {
 		return t
 	}
 
+	// OK
 	//length OK & no repeats
 	if short == 0 && long == 0 && UpLowDig != 0 && t == 0 {
 		return UpLowDig
@@ -64,20 +76,40 @@ func strongPasswordChecker(password string) int {
 		return t
 	}
 
+	// LONG
 	//to long & UplowDig & no repeats & AAA
-	if long != 0 && UpLowDig != 0 {
-		switch {
-		case t > UpLowDig:
-			return t + long
-		default:
-			return long + UpLowDig
 
+	//if long != 0 && UpLowDig != 0 {
+	//	switch {
+	//	case t > UpLowDig:
+	//		return t + long
+	//	default:
+	//		return long + UpLowDig
+	//
+	//	}
+	//}
+
+	//if long != 0 && UpLowDig != 0 {
+	//	for i, v := range cluster {
+	//		println(i, v)
+	//
+	//	}
+	//}
+
+	//to long
+	if long != 0 {
+		repit, cluster, upLowDig, tail := clusterAnalyzer(password)
+
+		for i, v := range cluster {
+			if upLowDig > 0 {
+				replaseFor := v / 3
+				if upLowDig <= replaseFor {
+					replaseFor -= upLowDig
+
+				}
+			}
 		}
-	}
-
-	//to long & no UplowDig & no repeats & AAA
-	if long != 0 && UpLowDig == 0 {
-		return t
+		return 1111
 	}
 
 	return 0
@@ -156,4 +188,62 @@ func three(p string) int {
 
 	}
 	return score
+}
+
+func clusterAnalyzer(p string) (bool, []int, int, int) {
+
+	clusterCounter := 1
+	var cluster [][]int
+	//var repit bool
+	var char int32
+	l := len(p)
+	var up, low, dig int = 1, 1, 1
+	var tail int
+
+	if l > max {
+		p = p[:20]
+		tail = l - max
+	}
+
+	for i, v := range p {
+
+		if char == v {
+			clusterCounter++
+		}
+
+		if clusterCounter >= 3 && (char != v || i+1 == l) {
+			cluster = append(cluster, clusterCounter)
+			clusterCounter = 1
+			char = 0
+			//repit = true
+		}
+
+		if char != v {
+			clusterCounter = 1
+		}
+
+		if clusterCounter < 3 {
+			char = v
+		}
+
+		if up != 0 {
+			if unicode.IsUpper(v) {
+				up = 0
+			}
+		}
+
+		if low != 0 {
+			if unicode.IsLower(v) {
+				low = 0
+			}
+		}
+
+		if dig != 0 {
+			if unicode.IsDigit(v) {
+				dig = 0
+			}
+		}
+	}
+
+	return cluster != nil, cluster, up + low + dig, tail
 }
